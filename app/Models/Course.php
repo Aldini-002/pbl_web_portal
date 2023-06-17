@@ -27,4 +27,14 @@ class Course extends Model
     {
         return $this->belongsTo(Category::class, 'id_category');
     }
+
+    public function materi()
+    {
+        return $this->hasMany(Materi::class, 'id_course');
+    }
+
+    public function batch_course()
+    {
+        return $this->hasMany(Batch_courses::class, 'id_course');
+    }
 }

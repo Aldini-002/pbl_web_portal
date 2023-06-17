@@ -66,12 +66,12 @@
                         <!--begin::Section-->
                         <p class="fw-semibold fs-4 text-gray-600 mb-2">MATERI</p>
 
-                        @for ($i = 1; $i < 10; $i++)
-                            <!--begin::Section-->
+                        <!--begin::Section-->
+                        @foreach ($materis as $materi)
                             <div class="m-0">
                                 <!--begin::Heading-->
                                 <div class="d-flex align-items-center collapsible py-3 toggle collapsed mb-0"
-                                    data-bs-toggle="collapse" data-bs-target="#materi{{ $i }}">
+                                    data-bs-toggle="collapse" data-bs-target="#materi{{ $loop->iteration }}">
                                     <!--begin::Icon-->
                                     <div class="btn btn-sm btn-icon mw-20px btn-active-color-primary me-5">
                                         <!--begin::Svg Icon | path: icons/duotune/general/gen036.svg-->
@@ -102,22 +102,33 @@
                                     </div>
                                     <!--end::Icon-->
                                     <!--begin::Title-->
-                                    <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">MATERI {{ $i }}</h4>
+                                    <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">MATERI {{ $loop->iteration }}</h4>
                                     <!--end::Title-->
                                 </div>
                                 <!--end::Heading-->
                                 <!--begin::Body-->
-                                <div id="materi{{ $i }}" class="collapse fs-6 ms-1">
+                                <div id="materi{{ $loop->iteration }}" class="collapse fs-6 ms-1">
                                     <!--begin::Item-->
                                     <div class="mb-4">
                                         <!--begin::Item-->
-                                        <div class="d-flex align-items-center ps-10 mb-n1">
+                                        <div class="align-items-center ps-10 mb-n1">
                                             <!--begin::Bullet-->
                                             <span class="bullet me-3"></span>
                                             <!--end::Bullet-->
                                             <!--begin::Label-->
-                                            <div class="text-gray-600 fw-semibold fs-6">Experience with JavaScript</div>
+                                            <a href="/doc/materi/{{ $materi->materi }}" class="fw-semibold fs-6"
+                                                target="blank">{{ $materi->title }}</a>
                                             <!--end::Label-->
+
+                                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#ubah_materi{{ $materi->id }}">Ubah</button>
+                                            <form action="{{ route('materis.destroy', $materi->id) }}" method="post"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                            </form>
+
                                         </div>
                                         <!--end::Item-->
                                     </div>
@@ -130,7 +141,7 @@
                                             <span class="bullet me-3"></span>
                                             <!--end::Bullet-->
                                             <!--begin::Label-->
-                                            <div class="text-gray-600 fw-semibold fs-6">Good time-management skills</div>
+                                            <div class="text-gray-600 fw-semibold fs-6">TUGAS 1</div>
                                             <!--end::Label-->
                                         </div>
                                         <!--end::Item-->
@@ -142,8 +153,61 @@
                                 <div class="separator separator-dashed"></div>
                                 <!--end::Separator-->
                             </div>
-                            <!--end::Section-->
-                        @endfor
+                        @endforeach
+                        <!--end::Section-->
+
+                        {{-- begin::tambah materi --}}
+                        <div class="mt-5">
+                            <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#tambah_materi" aria-expanded="false">
+                                Tambah materi
+                            </button>
+                            <div class="collapse" id="tambah_materi">
+                                <div class="my-5">
+                                    <form action="{{ route('materis.store') }}" class="d-inline" method="post"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="id_course" value="{{ $course->id }}">
+                                        <div class="row">
+                                            <div class="col-lg-5 mb-4 mb-lg-0">
+                                                <div class="fv-row mb-0">
+                                                    <input type="text" name="title" value="{{ request('title') }}"
+                                                        class="form-control bg-transparent @error('title') is-invalid @enderror"
+                                                        placeholder="judul materi..." required autocomplete="off"
+                                                        value="{{ old('title') }}">
+                                                    <div class="invalid-feedback">
+                                                        @error('title')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-5 mb-4 mb-lg-0">
+                                                <div class="fv-row mb-0">
+                                                    <input type="file" name="materi" value="{{ old('materi') }}"
+                                                        class="form-control bg-transparent @error('materi') is-invalid @enderror"
+                                                        placeholder="file" required accept=".pdf">
+                                                    <div class="invalid-feedback">
+                                                        @error('materi')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg mb-4 mb-lg-0">
+                                                <div class="fv-row mb-0">
+                                                    <button type="submit" class="btn btn-primary"
+                                                        style="width: 100%">Tambah
+                                                        materi</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- end::tambah materi --}}
+
                     </div>
                     <!--end::Job-->
                 </div>
@@ -151,7 +215,7 @@
 
 
                 <!--begin::Sidebar-->
-                <div class="flex-lg-row-auto w-100 w-lg-275px w-xxl-350px">
+                {{-- <div class="flex-lg-row-auto w-100 w-lg-275px w-xxl-350px">
                     <!--begin::Careers about-->
                     <div class="card bg-light">
                         <!--begin::Body-->
@@ -278,7 +342,7 @@
                         <!--end::Body-->
                     </div>
                     <!--end::Careers about-->
-                </div>
+                </div> --}}
                 <!--end::Sidebar-->
 
             </div>
@@ -286,4 +350,60 @@
         </div>
         <!--end::Body-->
     </div>
+
+    <!--begin::Modal - Ubah email-->
+    <!-- Modal -->
+    @foreach ($materis as $materi)
+        <div class="modal fade" id="ubah_materi{{ $materi->id }}" data-bs-backdrop="static" data-bs-keyboard="false"
+            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <!--begin::Form-->
+                        <form class="form" action="{{ route('materis.update', $materi->id) }}" method="post"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @method('put')
+                            <input type="hidden" name="materi_old" value="{{ $materi->materi }}">
+                            <div class="row mb-6">
+                                <div class="col-lg-6 mb-4 mb-lg-0">
+                                    <div class="fv-row mb-0">
+                                        <label for="emailaddress" class="form-label fs-6 fw-bold mb-3">Judul
+                                            materi</label>
+                                        <input type="text"
+                                            class="form-control form-control-lg form-control-solid @error('title') is-invalid @enderror"
+                                            placeholder="judul materi..." name="title" value="{{ $materi->title }}"
+                                            required autocomplete="off" />
+                                        <div class="invalid-feedback">
+                                            @error('title')
+                                                {{ $message }}
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="fv-row mb-0">
+                                        <label for="confirmemailpassword"
+                                            class="form-label fs-6 fw-bold mb-3">Materi</label>
+                                        <input type="file"
+                                            class="form-control form-control-lg form-control-solid @error('materi') is-invalid @enderror"
+                                            name="materi" accept=".pdf" />
+                                        <div class="invalid-feedback">
+                                            @error('materi')
+                                                {{ $message }}
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan perubahan</button>
+                        </form>
+                        <!--end::Form-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    <!--end::Modal - Ubah email-->
 @endsection

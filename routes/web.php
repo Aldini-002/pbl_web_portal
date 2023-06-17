@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\MateriController;
 use App\Http\Controllers\MeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -58,3 +59,15 @@ Route::controller(CourseController::class)->group(function () {
     Route::post('/courses', 'store')->name('courses.store')->middleware(['auth']);
     Route::delete('/courses/{id}', 'destroy')->name('courses.destroy')->middleware(['auth']);
 });
+
+// Route::controller(CourseController::class)->group(function () {
+//     Route::get('/materis', 'index')->name('materis.index')->middleware(['auth']);
+//     Route::get('/materis/create', 'create')->name('materis.create')->middleware(['auth']);
+//     Route::get('/materis/{id}', 'show')->name('materis.show')->middleware(['auth']);
+//     Route::get('/materis/edit/{id}', 'edit')->name('materis.edit')->middleware(['auth']);
+//     Route::put('/materis/{id}', 'update')->name('materis.update')->middleware(['auth']);
+//     Route::post('/materis', 'store')->name('materis.store')->middleware(['auth']);
+//     Route::delete('/materis/{id}', 'destroy')->name('materis.destroy')->middleware(['auth']);
+// });
+
+Route::resource('/materis', MateriController::class)->middleware(['auth']);

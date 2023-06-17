@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\Materi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -75,9 +76,11 @@ class CourseController extends Controller
     public function show($id)
     {
         $course = Course::findOrFail($id);
+        $materis = Materi::where('id_course', $course->id)->get();
 
         return view('courses.courses_detail', [
             'course' => $course,
+            'materis' => $materis,
         ]);
     }
 
