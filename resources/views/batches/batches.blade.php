@@ -18,51 +18,40 @@
                 @endif
             </div>
 
-            <div class="row">
-                <div class="col-lg-6">
-                    <form action="{{ route('categories.store') }}" class="d-inline mb-3" method="post">
-                        @csrf
-                        <div class="row mb-6">
-                            <div class="col-lg-8 mb-4 mb-lg-0">
-                                <div class="fv-row mb-0">
-                                    <input type="text" name="name" value="{{ old('name') }}"
-                                        class="form-control bg-transparent @error('name') is-invalid @enderror"
-                                        placeholder="tambah kategori..." autocomplete="off">
-                                    <div class="invalid-feedback">
-                                        @error('name')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg mb-4 mb-lg-0">
-                                <div class="fv-row mb-0">
-                                    <button type="submit" class="btn btn-primary" style="width: 100%">Tambah
-                                        kategori</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-lg">
-                    <form action="{{ route('categories.index') }}" class="d-inline mb-3">
-                        <div class="row mb-6">
-                            <div class="col-lg-10 mb-4 mb-lg-0">
-                                <div class="fv-row mb-0">
-                                    <input type="text" name="name" value="{{ request('name') }}"
-                                        class="form-control bg-transparent" placeholder="cari kategori...">
-                                </div>
-                            </div>
-                            <div class="col-lg mb-4 mb-lg-0">
-                                <div class="fv-row mb-0">
-                                    <button type="submit" class="btn btn-warning" style="width: 100%">Cari</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+            <div class="mb-3">
+                <a href="{{ route('batches.create') }}" class="btn btn-sm btn-primary">Tambah batch</a>
             </div>
 
+            <form action="{{ route('batches.index') }}" class="d-inline mb-3">
+                <div class="row mb-6">
+                    <div class="col-lg-5 mb-4 mb-lg-0">
+                        <div class="fv-row mb-0">
+                            <input type="text" name="title" value="{{ request('title') }}"
+                                class="form-control bg-transparent" placeholder="judul...">
+                        </div>
+                    </div>
+                    <div class="col-lg-5 mb-4 mb-lg-0">
+                        <div class="fv-row mb-0">
+                            <select name="status" class="form-select" data-control="select2" data-hide-search="true">
+                                <option {{ !request('status') ? 'selected disabled' : '' }} value="">
+                                    {{ request('status') ? 'Kosongkan' : 'status...' }}</option>
+                                <option value="akan datang" {{ request('status') === 'akan datang' ? 'selected' : '' }}>Akan
+                                    datang
+                                </option>
+                                <option value="berlangsung" {{ request('status') === 'berlangsung' ? 'selected' : '' }}>
+                                    Berlangsung</option>
+                                <option value="selesai" {{ request('status') === 'selesai' ? 'selected' : '' }}>Selesai
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg mb-4 mb-lg-0">
+                        <div class="fv-row mb-0">
+                            <button type="submit" class="btn btn-primary" style="width: 100%">Filter</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
 
             <div class="table-responsive">
                 <!--begin::Table-->
@@ -70,28 +59,46 @@
                     <!--begin::Table head-->
                     <thead>
                         <tr class="fw-bold text-muted bg-light">
-                            <th class="ps-4 min-w-325px rounded-start">Name</th>
+                            <th class="ps-4 min-w-325px rounded-start">Angkatan</th>
+                            <th class="ps-4 min-w-200px ">Status</th>
+                            <th class="ps-4 min-w-200px ">Tanggal mulai</th>
+                            <th class="ps-4 min-w-200px ">Tanggal selesai</th>
                             <th class="min-w-200px text-end rounded-end"></th>
                         </tr>
                     </thead>
                     <!--end::Table head-->
                     <!--begin::Table body-->
                     <tbody>
-                        @foreach ($categories as $category)
+                        @foreach ($batches as $batch)
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
+                                        <div class="symbol symbol-50px me-5">
+                                            <img src="/img/batch/{{ $batch->image }}" class="" alt="error" />
+                                        </div>
                                         <div class="d-flex justify-content-start flex-column">
-                                            <a href="{{ route('courses.index', 'id_category=' . $category->id) }}"
-                                                class="text-dark fw-bold text-hover-primary mb-1 fs-6">{{ $category->name }}</a>
+                                            <a href="{{ route('batches.show', $batch->id) }}"
+                                                class="text-dark fw-bold text-hover-primary mb-1 fs-6">{{ $batch->title }}</a>
                                             <span
-                                                class="text-muted fw-semibold text-muted d-block fs-7">{{ $category->course->count() ? $category->course->count() . ' Pelatihan' : 'Tidak ada pelatihan' }}</span>
+                                                class="text-muted fw-semibold text-muted d-block fs-7">{{ $batch->batch_user->count() ? $batch->batch_user->count() . ' Peserta' : 'Belum ada peserta' }}</span>
+                                            <span
+                                                class="text-muted fw-semibold text-muted d-block fs-7">{{ $batch->batch_course->count() ? $batch->batch_course->count() . ' Pelatihan' : 'Belum ada pelatihan' }}</span>
                                         </div>
                                     </div>
                                 </td>
+                                <td>
+                                    <span
+                                        class="badge fw-semibold me-1 badge-light-{{ $batch->status === 'akan datang' ? 'warning' : '' }}{{ $batch->status === 'berlangsung' ? 'success' : '' }}{{ $batch->status === 'selesai' ? 'danger' : '' }}">{{ $batch->status }}</span>
+                                </td>
+                                <td>
+                                    <span>{{ $batch->start }}</span>
+                                </td>
+                                <td>
+                                    <span>{{ $batch->end }}</span>
+                                </td>
                                 <td class="text-end">
-                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
-                                        data-bs-toggle="modal" data-bs-target="#edit_category{{ $category->id }}">
+                                    <a href="{{ route('batches.edit', $batch->id) }}"
+                                        class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                         <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                         <span class="svg-icon svg-icon-3">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -106,13 +113,13 @@
                                         </span>
                                         <!--end::Svg Icon-->
                                     </a>
-                                    <form action="{{ route('categories.destroy', $category->id) }}" method="post"
+                                    <form action="{{ route('batches.destroy', $batch->id) }}" method="post"
                                         class="d-inline">
                                         @csrf
                                         @method('delete')
                                         <button id="kt_account_deactivate_account_submit" type="submit"
                                             class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
-                                            onclick="return confirm('Kategory akan dihapus secara permanen!\nlanjutkan')">
+                                            onclick="return confirm('Angkatan akan dihapus secara permanen!\nlanjutkan')">
                                             <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                             <span class="svg-icon svg-icon-3">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -135,7 +142,7 @@
                             </tr>
                         @endforeach
                         <tr>
-                            <td colspan="2">{{ $categories->links() }}</td>
+                            <td colspan="3">{{ $batches->links() }}</td>
                         </tr>
                     </tbody>
                     <!--end::Table body-->
@@ -146,43 +153,4 @@
         </div>
         <!--begin::Body-->
     </div>
-
-
-    <!--begin::Modal - Ubah passowrd-->
-    <!-- Modal -->
-    @foreach ($categories as $category)
-        <div class="modal fade" id="edit_category{{ $category->id }}" data-bs-backdrop="static" data-bs-keyboard="false"
-            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <!--begin::Form-->
-                        <form class="form" action="{{ route('categories.update', $category->id) }}" method="post">
-                            @csrf
-                            @method('put')
-                            <div class="row mb-1">
-                                <div class="col-lg">
-                                    <div class="fv-row mb-0">
-                                        <label class="form-label fs-6 fw-bold mb-3">Kategori</label>
-                                        <input type="text"
-                                            class="form-control form-control-lg form-control-solid @error('name') is-invalid @enderror"
-                                            name="name" value="{{ $category->name }}" required autocomplete="off" />
-                                        <div class="invalid-feedback">
-                                            @error('name')
-                                                {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Simpan perubahan</button>
-                        </form>
-                        <!--end::Form-->
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endforeach
-    <!--end::Modal - Ubah email-->
 @endsection

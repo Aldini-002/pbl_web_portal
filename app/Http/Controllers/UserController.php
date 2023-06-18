@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Batch;
+use App\Models\Batch_users;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -93,6 +95,11 @@ class UserController extends Controller
 
         if ($user->role === 'admin') {
             return back()->with('error', 'Tidak dapat menghapus admin!');
+        }
+
+        if ($user->batch_user->count()) {
+            $batch_users = Batch_users::where('id_user', $id);
+            $batch_users->delete();
         }
 
         if ($user->image) {

@@ -57,4 +57,9 @@ class User extends Authenticatable
             return $query->where('role', $role);
         });
     }
+
+    public function batch_user()
+    {
+        return $this->hasMany(Batch_users::class, 'id_user');
+    }
 }

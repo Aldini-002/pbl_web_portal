@@ -3,6 +3,11 @@
     <!--begin::Navbar-->
     <div class="card mb-5 mb-xl-10">
         <div class="card-body pt-9 pb-0">
+
+            <div class="mb-3">
+                <a href="{{ route('user.index') }}" class="btn btn-sm btn-primary">Kembali</a>
+            </div>
+
             <!--begin::Details-->
             <div class="d-flex flex-wrap flex-sm-nowrap mb-3">
                 <!--begin: Pic-->
@@ -77,7 +82,7 @@
     <!--end::Navbar-->
 
 
-    <div class="card mb-5 mb-xl-10" style="border-top-left-radius: 0">
+    <div class="card mb-5 mb-xl-10">
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <button class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Batch;
+use App\Models\Batch_courses;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Materi;
@@ -149,6 +151,16 @@ class CourseController extends Controller
     public function destroy($id)
     {
         $course = Course::findOrFail($id);
+
+        if ($course->materi->count()) {
+            $materis = Materi::where('id_course', $id);
+            $materis->delete();
+        }
+
+        if ($course->batch_course->count()) {
+            $batch_courses = Batch_courses::where('id_course', $id);
+            $batch_courses->delete();
+        }
 
         if ($course->image) {
             if (File::exists('img/course/' . $course->image)) {

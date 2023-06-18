@@ -63,7 +63,7 @@
             tabindex="0">
 
             <!--begin::Basic info-->
-            <div class="card mb-5 mb-xl-10" style="border-top-left-radius: 0">
+            <div class="card mb-5 mb-xl-10">
                 <!--begin::Card header-->
                 <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse"
                     data-bs-target="#kt_account_profile_details" aria-expanded="true"

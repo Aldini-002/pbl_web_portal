@@ -72,7 +72,7 @@
                 <!--begin:Menu item-->
                 <div class="menu-item">
                     <!--begin:Menu link-->
-                    <a class="menu-link {{ request()->is('users*') ? 'active' : '' }}" href="{{ route('user.index') }}">
+                    <a class="menu-link {{ request()->is('user*') ? 'active' : '' }}" href="{{ route('user.index') }}">
                         <span class="menu-title">Users</span>
                     </a>
                     <!--end:Menu link-->
@@ -103,7 +103,8 @@
                 <!--begin:Menu item-->
                 <div class="menu-item">
                     <!--begin:Menu link-->
-                    <a class="menu-link {{ request()->is('batches*') ? 'active' : '' }}" href="#">
+                    <a class="menu-link {{ request()->is('batches*') ? 'active' : '' }}"
+                        href="{{ route('batches.index') }}">
                         <span class="menu-title">Angkatan</span>
                     </a>
                     <!--end:Menu link-->

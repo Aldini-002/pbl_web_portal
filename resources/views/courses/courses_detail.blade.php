@@ -5,6 +5,7 @@
         <div class="card-body p-lg-17">
 
             <div class="mb-3">
+                <a href="{{ route('courses.index') }}" class="btn btn-sm btn-primary">Kembali</a>
                 <a href="{{ route('courses.edit', $course->id) }}" class="btn btn-warning btn-sm">Ubah pelatihan</a>
                 <form action="{{ route('courses.destroy', $course->id) }}" method="post" class="d-inline">
                     @csrf
@@ -102,7 +103,8 @@
                                     </div>
                                     <!--end::Icon-->
                                     <!--begin::Title-->
-                                    <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">MATERI {{ $loop->iteration }}</h4>
+                                    <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">MATERI {{ $loop->iteration }}
+                                    </h4>
                                     <!--end::Title-->
                                 </div>
                                 <!--end::Heading-->

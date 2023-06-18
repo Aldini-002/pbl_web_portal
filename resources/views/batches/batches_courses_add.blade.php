@@ -4,10 +4,6 @@
         <div class="card-body py-3">
 
             <div class="mb-3">
-                <a href="{{ route('courses.create') }}" class="btn btn-sm btn-primary">Tambah course</a>
-            </div>
-
-            <div class="mb-3">
                 @if (session()->has('error'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         {{ session('error') }}
@@ -22,7 +18,11 @@
                 @endif
             </div>
 
-            <form action="{{ route('courses.index') }}" class="d-inline mb-3">
+            <div class="mb-3">
+                <a href="{{ route('batches.show', $batch->id) }}" class="btn btn-sm btn-primary">Kembali</a>
+            </div>
+
+            <form action="{{ route('batches-courses.create', $batch->id) }}" class="d-inline mb-3">
                 <div class="row mb-6">
                     <div class="col-lg-5 mb-4 mb-lg-0">
                         <div class="fv-row mb-0">
@@ -55,6 +55,7 @@
 
             <div class="row g-5 g-xl-8">
                 @foreach ($courses as $course)
+                    @continue($course->batch_course->count())
                     <div class="col-xl-3">
                         <!--begin::Mixed Widget 12-->
                         <a href="{{ route('courses.show', $course->id) }}">
@@ -68,6 +69,13 @@
                                     <hr>
                                     <small
                                         class="card-text">{{ $course->materi->count() ? $course->materi->count() : 'Tidak ada materi' }}</small>
+                                    <hr>
+                                    <form action="{{ route('batches-courses.store') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="id_batch" value="{{ $batch->id }}">
+                                        <input type="hidden" name="id_course" value="{{ $course->id }}">
+                                        <button type="submit" class="btn btn-sm btn-primary">Tambahkan</button>
+                                    </form>
                                 </div>
                             </div>
                         </a>
