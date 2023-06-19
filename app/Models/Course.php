@@ -37,4 +37,9 @@ class Course extends Model
     {
         return $this->hasMany(Batch_courses::class, 'id_course');
     }
+
+    public function task()
+    {
+        return $this->hasMany(Task::class, 'id_course');
+    }
 }

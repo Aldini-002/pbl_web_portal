@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Materi;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -120,9 +121,14 @@ class MateriController extends Controller
     {
         $materi = Materi::findOrFail($id);
 
-        if ($materi->image) {
-            if (File::exists('doc/materi/' . $materi->image)) {
-                File::delete('doc/materi/' . $materi->image);
+        if ($materi->task->count()) {
+            $task = Task::where('id_materi', $id);
+            $task->delete();
+        }
+
+        if ($materi->materi) {
+            if (File::exists('doc/materi/' . $materi->materi)) {
+                File::delete('doc/materi/' . $materi->materi);
             }
         }
 

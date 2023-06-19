@@ -65,15 +65,17 @@
                         </div>
                         <!--end::User-->
                         <!--begin::Actions-->
-                        <div class="d-flex my-4">
-                            <a href="{{ route('batches.edit', $batch->id) }}" type="submit"
-                                class="btn btn-sm btn-primary me-2">Ubah batch</a>
-                            <form action="{{ route('batches.destroy', $batch->id) }}" method="post">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-sm btn-danger me-2">Hapus batch</button>
-                            </form>
-                        </div>
+                        @can('admin')
+                            <div class="d-flex my-4">
+                                <a href="{{ route('batches.edit', $batch->id) }}" type="submit"
+                                    class="btn btn-sm btn-primary me-2">Ubah batch</a>
+                                <form action="{{ route('batches.destroy', $batch->id) }}" method="post">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-sm btn-danger me-2">Hapus batch</button>
+                                </form>
+                            </div>
+                        @endcan
                         <!--end::Actions-->
                     </div>
                     <!--end::Title-->
@@ -88,15 +90,18 @@
     {{-- begin::pelatihan --}}
     <div class="card mb-5 mb-xl-10">
         <div class="card-body p-9">
-            <div class="mb-3">
-                <a href="{{ route('batches-courses.create', $batch->id) }}" class="btn btn-sm btn-primary">Tambah
-                    pelatihan</a>
-            </div>
+            @can('admin')
+                <div class="mb-3">
+                    <a href="{{ route('batches-courses.create', $batch->id) }}" class="btn btn-sm btn-primary">Tambah
+                        pelatihan</a>
+                </div>
+            @endcan
             <div class="row g-5 g-xl-8">
                 @foreach ($batch->batch_course as $batch_course)
                     <div class="col-xl-3">
                         <!--begin::Mixed Widget 12-->
-                        <a href="{{ route('courses.show', $batch_course->course->id) }}">
+                        <a
+                            href="{{ route('batches-courses-show', $batch_course->course->id) . '?id_batch=' . $batch->id }}">
                             <div class="card card-xl-stretch mb-xl-8 shadow-sm">
                                 <img src="/img/course/{{ $batch_course->course->image }}" class="card-img-top"
                                     alt="error" style="height: 200px; overflow:hidden">
@@ -105,14 +110,16 @@
                                     <small class="badge bg-primary">{{ $batch_course->course->category->name }}</small>
                                     <hr>
                                     <small
-                                        class="card-text">{{ $batch_course->course->materi->count() ? $batch_course->course->materi->count() : 'Tidak ada materi' }}</small>
-                                    <hr>
-                                    <form action="{{ route('batches-courses.destroy', $batch_course->id) }}"
-                                        method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button type="submit" class="btn btn-sm btn-danger">Keluarkan</button>
-                                    </form>
+                                        class="card-text">{{ $batch_course->course->materi->count() ? $batch_course->course->materi->count() . ' Materi' : 'Tidak ada materi' }}</small>
+                                    @can('admin')
+                                        <hr>
+                                        <form action="{{ route('batches-courses.destroy', $batch_course->id) }}"
+                                            method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-sm btn-danger">Keluarkan</button>
+                                        </form>
+                                    @endcan
                                 </div>
                             </div>
                         </a>
@@ -128,17 +135,19 @@
     {{-- begin::peserta --}}
     <div class="card mb-5 mb-xl-10">
         <div class="card-body p-9">
-            <div class="mb-3">
-                <a href="{{ route('batches-users.create', $batch->id) }}" class="btn btn-sm btn-primary">Tambah
-                    peserta</a>
-            </div>
+            @can('admin')
+                <div class="mb-3">
+                    <a href="{{ route('batches-users.create', $batch->id) }}" class="btn btn-sm btn-primary">Tambah
+                        peserta</a>
+                </div>
+            @endcan
 
             <div class="table-responsive">
                 <!--begin::Table-->
                 <table class="table align-middle gs-0 gy-4">
                     <!--begin::Table head-->
                     <thead>
-                        <tr class="fw-bold text-muted text-light bg-dark">
+                        <tr class="fw-bold text-muted text-light bg-light">
                             <th class="ps-4 min-w-325px rounded-start">Profile</th>
                             <th class="ps-4 min-w-325px ">Role</th>
                             <th class="min-w-200px text-end rounded-end"></th>

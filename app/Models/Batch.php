@@ -31,4 +31,9 @@ class Batch extends Model
     {
         return $this->hasMany(Batch_users::class, 'id_batch');
     }
+
+    public function task()
+    {
+        return $this->hasMany(Task::class, 'id_batch');
+    }
 }

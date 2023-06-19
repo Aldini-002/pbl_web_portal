@@ -20,7 +20,7 @@ class CourseFactory extends Factory
             'id_category' => mt_rand(1, 10),
             'title' => fake()->sentence(mt_rand(1, 3)),
             'description' => fake()->paragraph(),
-            'image' => fake()->randomElement(['factory1.png', 'factory2.jpg'])
+            'image' => fake()->randomElement(['factory1.png', 'factory2.png'])
         ];
     }
 }

@@ -69,15 +69,17 @@
                 </div> --}}
                 <!--end:Menu item-->
 
-                <!--begin:Menu item-->
-                <div class="menu-item">
-                    <!--begin:Menu link-->
-                    <a class="menu-link {{ request()->is('user*') ? 'active' : '' }}" href="{{ route('user.index') }}">
-                        <span class="menu-title">Users</span>
-                    </a>
-                    <!--end:Menu link-->
-                </div>
-                <!--end:Menu item-->
+                @can('admin')
+                    <!--begin:Menu item-->
+                    <div class="menu-item">
+                        <!--begin:Menu link-->
+                        <a class="menu-link {{ request()->is('user*') ? 'active' : '' }}" href="{{ route('user.index') }}">
+                            <span class="menu-title">Users</span>
+                        </a>
+                        <!--end:Menu link-->
+                    </div>
+                    <!--end:Menu item-->
+                @endcan
 
                 <!--begin:Menu item-->
                 <div class="menu-item pt-5">
@@ -92,17 +94,6 @@
                 <!--begin:Menu item-->
                 <div class="menu-item">
                     <!--begin:Menu link-->
-                    <a class="menu-link {{ request()->is('courses*') ? 'active' : '' }}"
-                        href="{{ route('courses.index') }}">
-                        <span class="menu-title">Pelatihan</span>
-                    </a>
-                    <!--end:Menu link-->
-                </div>
-                <!--end:Menu item-->
-
-                <!--begin:Menu item-->
-                <div class="menu-item">
-                    <!--begin:Menu link-->
                     <a class="menu-link {{ request()->is('batches*') ? 'active' : '' }}"
                         href="{{ route('batches.index') }}">
                         <span class="menu-title">Angkatan</span>
@@ -111,16 +102,28 @@
                 </div>
                 <!--end:Menu item-->
 
-                <!--begin:Menu item-->
-                <div class="menu-item">
-                    <!--begin:Menu link-->
-                    <a class="menu-link {{ request()->is('categories*') ? 'active' : '' }}"
-                        href="{{ route('categories.index') }}">
-                        <span class="menu-title">Kategori</span>
-                    </a>
-                    <!--end:Menu link-->
-                </div>
-                <!--end:Menu item-->
+                @can('admin')
+                    <!--begin:Menu item-->
+                    <div class="menu-item">
+                        <!--begin:Menu link-->
+                        <a class="menu-link {{ request()->is('courses*') ? 'active' : '' }}"
+                            href="{{ route('courses.index') }}">
+                            <span class="menu-title">Pelatihan</span>
+                        </a>
+                        <!--end:Menu link-->
+                    </div>
+                    <!--end:Menu item-->
+                    <!--begin:Menu item-->
+                    <div class="menu-item">
+                        <!--begin:Menu link-->
+                        <a class="menu-link {{ request()->is('categories*') ? 'active' : '' }}"
+                            href="{{ route('categories.index') }}">
+                            <span class="menu-title">Kategori</span>
+                        </a>
+                        <!--end:Menu link-->
+                    </div>
+                    <!--end:Menu item-->
+                @endcan
             </div>
             <!--end::Menu-->
         </div>

@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\MeController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -74,9 +75,12 @@ Route::resource('/courses', CourseController::class)->middleware(['auth']);
 Route::resource('/materis', MateriController::class)->middleware(['auth']);
 
 Route::resource('/batches', BatchController::class)->middleware(['auth']);
+Route::get('/batches-courses-show/{id}', [BatchController::class, 'show_course'])->name('batches-courses-show');
 
 Route::resource('/batches-courses', BatchCoursesController::class)->middleware(['auth'])->except(['batches-courses.create']);
 Route::get('/batches-courses/create/{id}', [BatchCoursesController::class, 'create'])->name('batches-courses.create');
 
 Route::resource('/batches-users', BatchUsersController::class)->middleware(['auth'])->except(['batches-users.create']);
 Route::get('/batches-users/create/{id}', [BatchUsersController::class, 'create'])->name('batches-users.create');
+
+Route::resource('/tasks', TaskController::class)->middleware(['auth']);

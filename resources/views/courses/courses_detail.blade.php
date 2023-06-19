@@ -135,20 +135,6 @@
                                         <!--end::Item-->
                                     </div>
                                     <!--end::Item-->
-                                    <!--begin::Item-->
-                                    <div class="mb-4">
-                                        <!--begin::Item-->
-                                        <div class="d-flex align-items-center ps-10 mb-n1">
-                                            <!--begin::Bullet-->
-                                            <span class="bullet me-3"></span>
-                                            <!--end::Bullet-->
-                                            <!--begin::Label-->
-                                            <div class="text-gray-600 fw-semibold fs-6">TUGAS 1</div>
-                                            <!--end::Label-->
-                                        </div>
-                                        <!--end::Item-->
-                                    </div>
-                                    <!--end::Item-->
                                 </div>
                                 <!--end::Content-->
                                 <!--begin::Separator-->

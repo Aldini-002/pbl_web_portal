@@ -6,6 +6,8 @@ use App\Models\Batch;
 use App\Models\Batch_courses;
 use App\Models\Batch_users;
 use App\Models\Course;
+use App\Models\Materi;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,11 +25,10 @@ class BatchController extends Controller
             if ($batch->start < date(now())) {
                 $batch->status = 'akan datang';
                 $batch->save();
-            } elseif ($batch->start >= date(now())) {
+            } elseif ($batch->start >= date(now()) && date(now()) <= $batch->end) {
                 $batch->status = 'berlangsung';
                 $batch->save();
-            }
-            if (date(now()) >= $batch->end) {
+            } else {
                 $batch->status = 'selesai';
                 $batch->save();
             }
@@ -89,6 +90,20 @@ class BatchController extends Controller
      */
     public function show($id)
     {
+        $update_batches = Batch::all();
+        foreach ($update_batches as $batch) {
+            if ($batch->start < date(now())) {
+                $batch->status = 'akan datang';
+                $batch->save();
+            } elseif ($batch->start >= date(now()) && date(now()) <= $batch->end) {
+                $batch->status = 'berlangsung';
+                $batch->save();
+            } else {
+                $batch->status = 'selesai';
+                $batch->save();
+            }
+        }
+
         $batch = Batch::findOrFail($id);
         $courses = Course::all();
 
@@ -186,5 +201,31 @@ class BatchController extends Controller
         Batch::destroy($batch->id);
 
         return redirect(route('batches.index'))->with('success', 'Angkatan berhasil di hapus!');
+    }
+
+    public function show_course($id)
+    {
+        $batch = Batch::findOrFail(request('id_batch'));
+        $course = Course::findOrFail($id);
+        $materis = Materi::where('id_course', $course->id)->get();
+        $tasks = Task::where([
+            ['id_batch', $batch->id],
+            ['id_course', $course->id]
+        ])->get();
+
+        $view = 'batches.admin.batches_courses_detail';
+        if (Auth::user()->role == 'siswa') {
+            $view = 'batches.siswa.batches_courses_detail';
+        }
+        if (Auth::user()->role == 'instruktur') {
+            $view = 'batches.instruktur.batches_courses_detail';
+        }
+
+        return view($view, [
+            'batch' => $batch,
+            'course' => $course,
+            'materis' => $materis,
+            'tasks' => $tasks,
+        ]);
     }
 }
