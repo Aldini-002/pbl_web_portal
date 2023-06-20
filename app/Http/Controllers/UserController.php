@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Batch;
+use App\Models\Batch_user_history;
 use App\Models\Batch_users;
+use App\Models\Ikuti_angkatan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -100,6 +102,16 @@ class UserController extends Controller
         if ($user->batch_user->count()) {
             $batch_users = Batch_users::where('id_user', $id);
             $batch_users->delete();
+        }
+
+        if ($user->batch_user_history->count()) {
+            $batch_user_history = Batch_user_history::where('id_user', $id);
+            $batch_user_history->delete();
+        }
+
+        if ($user->ikuti_angkatan->count()) {
+            $ikuti_angkatan = Ikuti_angkatan::where('id_user', $id);
+            $ikuti_angkatan->delete();
         }
 
         if ($user->image) {

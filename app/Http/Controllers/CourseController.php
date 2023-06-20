@@ -7,6 +7,7 @@ use App\Models\Batch_courses;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Materi;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -160,6 +161,11 @@ class CourseController extends Controller
         if ($course->batch_course->count()) {
             $batch_courses = Batch_courses::where('id_course', $id);
             $batch_courses->delete();
+        }
+
+        if ($course->task->count()) {
+            $task = Task::where('id_course', $id);
+            $task->delete();
         }
 
         if ($course->image) {

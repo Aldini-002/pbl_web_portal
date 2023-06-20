@@ -227,6 +227,21 @@ class BatchController extends Controller
             $batch_users->delete();
         }
 
+        if ($batch->task->count()) {
+            $task = Task::where('id_batch', $id);
+            $task->delete();
+        }
+
+        if ($batch->batch_user_history->count()) {
+            $batch_user_history = Batch_user_history::where('id_batch', $id);
+            $batch_user_history->delete();
+        }
+
+        if ($batch->ikuti_angkatan->count()) {
+            $ikuti_angkatan = Ikuti_angkatan::where('id_batch', $id);
+            $ikuti_angkatan->delete();
+        }
+
         if ($batch->image) {
             if (File::exists('img/batch/' . $batch->image)) {
                 File::delete('img/batch/' . $batch->image);
