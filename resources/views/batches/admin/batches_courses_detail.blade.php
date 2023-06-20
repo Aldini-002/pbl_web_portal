@@ -62,6 +62,9 @@
                         <p class="fw-semibold fs-4 text-gray-600 mb-2">MATERI</p>
 
                         <!--begin::Section-->
+                        @if (!$materis->count())
+                            Tidak ada materi
+                        @endif
                         @foreach ($materis as $materi)
                             <div class="m-0">
                                 <!--begin::Heading-->
@@ -112,8 +115,15 @@
                                             <span class="bullet me-3"></span>
                                             <!--end::Bullet-->
                                             <!--begin::Label-->
-                                            <a href="/doc/materi/{{ $materi->materi }}" class="fw-semibold fs-6"
-                                                target="blank">{{ $materi->title }}</a>
+                                            @if ($materi->type == 'pdf')
+                                                <a href="/doc/materi/{{ $materi->materi }}" class="fw-semibold fs-6"
+                                                    target="blank">{{ $materi->title }} <small
+                                                        class="text-muted">(materi)</small></a>
+                                            @else
+                                                <a href="{{ $materi->materi }}" class="fw-semibold fs-6"
+                                                    target="blank">{{ $materi->title }} <small
+                                                        class="text-muted">(tugas)</small></a>
+                                            @endif
                                             <!--end::Label-->
 
                                         </div>

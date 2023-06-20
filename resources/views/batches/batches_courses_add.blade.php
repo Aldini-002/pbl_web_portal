@@ -54,6 +54,9 @@
             </form>
 
             <div class="row g-5 g-xl-8">
+                @if (!$courses->count())
+                    Tidak ada pelatihan
+                @endif
                 @foreach ($courses as $course)
                     @continue($course->batch_course->count())
                     <div class="col-xl-3">
@@ -74,6 +77,36 @@
                                         @csrf
                                         <input type="hidden" name="id_batch" value="{{ $batch->id }}">
                                         <input type="hidden" name="id_course" value="{{ $course->id }}">
+                                        <button type="submit" class="btn btn-sm btn-primary">Tambahkan</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </a>
+                        <!--end::Mixed Widget 12-->
+                    </div>
+                @endforeach
+                @foreach ($batch_courses as $course)
+                    @if (request('title') || request('id_category'))
+                        @continue(!str_contains(strtolower($course->course->title), strtolower(request('title'))) || $course->course->category->id != reqeust('id_category'))
+                    @endif
+                    <div class="col-xl-3">
+                        <!--begin::Mixed Widget 12-->
+                        <a href="{{ route('courses.show', $course->course->id) }}">
+                            <div class="card card-xl-stretch mb-xl-8 shadow-sm">
+                                <img src="/img/course/{{ $course->course->image }}" class="card-img-top" alt="error"
+                                    style="height: 200px; overflow:hidden">
+                                <div class="card-body text-center text-dark">
+                                    <h5 class="card-title">{{ $course->course->title }}</h5>
+                                    <span
+                                        class="badge badge-light-info fw-semibold me-1">{{ $course->course->category->name }}</span>
+                                    <hr>
+                                    <small
+                                        class="card-text">{{ $course->course->materi->count() ? $course->course->materi->count() : 'Tidak ada materi' }}</small>
+                                    <hr>
+                                    <form action="{{ route('batches-courses.store') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="id_batch" value="{{ $batch->id }}">
+                                        <input type="hidden" name="id_course" value="{{ $course->course->id }}">
                                         <button type="submit" class="btn btn-sm btn-primary">Tambahkan</button>
                                     </form>
                                 </div>

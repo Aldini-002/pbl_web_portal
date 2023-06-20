@@ -80,13 +80,13 @@ class TaskController extends Controller
     {
         $task_update = Task::all();
         foreach ($task_update as $task) {
-            if ($task->start < date(now())) {
+            if ($task->start > date(now()) && $task->end > date(now())) {
                 $task->status = 'akan datang';
                 $task->save();
-            } elseif ($task->start >= date(now()) && date(now()) <= $task->end) {
+            } elseif ($task->start < date(now()) && $task->end > date(now())) {
                 $task->status = 'berlangsung';
                 $task->save();
-            } else {
+            } elseif ($task->start < date(now()) && $task->end < date(now())) {
                 $task->status = 'selesai';
                 $task->save();
             }

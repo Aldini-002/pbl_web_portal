@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('id_course');
             $table->string('title');
             $table->string('materi');
+            $table->enum('type', ['pdf', 'youtube']);
             $table->timestamps();
         });
     }

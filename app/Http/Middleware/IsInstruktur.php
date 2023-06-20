@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class IsInstruktur
@@ -15,6 +16,9 @@ class IsInstruktur
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        if (Auth::user()->role == 'instruktur') {
+            return $next($request);
+        }
+        return back();
     }
 }

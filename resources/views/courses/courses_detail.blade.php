@@ -118,8 +118,13 @@
                                             <span class="bullet me-3"></span>
                                             <!--end::Bullet-->
                                             <!--begin::Label-->
-                                            <a href="/doc/materi/{{ $materi->materi }}" class="fw-semibold fs-6"
-                                                target="blank">{{ $materi->title }}</a>
+                                            @if ($materi->type == 'pdf')
+                                                <a href="/doc/materi/{{ $materi->materi }}" class="fw-semibold fs-6"
+                                                    target="blank">{{ $materi->title }}</a>
+                                            @else
+                                                <a href="{{ $materi->materi }}" class="fw-semibold fs-6"
+                                                    target="blank">{{ $materi->title }}</a>
+                                            @endif
                                             <!--end::Label-->
 
                                             <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
@@ -148,7 +153,11 @@
                         <div class="mt-5">
                             <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#tambah_materi" aria-expanded="false">
-                                Tambah materi
+                                Tambah materi pdf
+                            </button>
+                            <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#tambah_materi_yt" aria-expanded="false">
+                                Tambah materi youtube
                             </button>
                             <div class="collapse" id="tambah_materi">
                                 <div class="my-5">
@@ -156,10 +165,11 @@
                                         enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="id_course" value="{{ $course->id }}">
+                                        <input type="hidden" name="type" value="pdf">
                                         <div class="row">
                                             <div class="col-lg-5 mb-4 mb-lg-0">
                                                 <div class="fv-row mb-0">
-                                                    <input type="text" name="title" value="{{ request('title') }}"
+                                                    <input type="text" name="title" value="{{ old('title') }}"
                                                         class="form-control bg-transparent @error('title') is-invalid @enderror"
                                                         placeholder="judul materi..." required autocomplete="off"
                                                         value="{{ old('title') }}">
@@ -193,6 +203,51 @@
                                     </form>
                                 </div>
                             </div>
+                            <div class="collapse" id="tambah_materi_yt">
+                                <div class="my-5">
+                                    <form action="{{ route('materis.store') }}" class="d-inline" method="post"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="id_course" value="{{ $course->id }}">
+                                        <input type="hidden" name="type" value="youtube">
+                                        <div class="row">
+                                            <div class="col-lg-5 mb-4 mb-lg-0">
+                                                <div class="fv-row mb-0">
+                                                    <input type="text" name="title" value="{{ old('title') }}"
+                                                        class="form-control bg-transparent @error('title') is-invalid @enderror"
+                                                        placeholder="judul materi..." required autocomplete="off"
+                                                        value="{{ old('title') }}">
+                                                    <div class="invalid-feedback">
+                                                        @error('title')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-5 mb-4 mb-lg-0">
+                                                <div class="fv-row mb-0">
+                                                    <input type="text" name="materi" value="{{ old('materi') }}"
+                                                        class="form-control bg-transparent @error('materi') is-invalid @enderror"
+                                                        placeholder="judul materi..." required autocomplete="off"
+                                                        value="{{ old('materi') }}">
+                                                    <div class="invalid-feedback">
+                                                        @error('materi')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg mb-4 mb-lg-0">
+                                                <div class="fv-row mb-0">
+                                                    <button type="submit" class="btn btn-primary"
+                                                        style="width: 100%">Tambah
+                                                        materi</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                         {{-- end::tambah materi --}}
 
@@ -200,138 +255,6 @@
                     <!--end::Job-->
                 </div>
                 <!--end::Content-->
-
-
-                <!--begin::Sidebar-->
-                {{-- <div class="flex-lg-row-auto w-100 w-lg-275px w-xxl-350px">
-                    <!--begin::Careers about-->
-                    <div class="card bg-light">
-                        <!--begin::Body-->
-                        <div class="card-body">
-                            <!--begin::Top-->
-                            <div class="mb-7">
-                                <!--begin::Title-->
-                                <h2 class="fs-1 text-gray-800 w-bolder mb-6">About Us</h2>
-                                <!--end::Title-->
-                                <!--begin::Text-->
-                                <p class="fw-semibold fs-6 text-gray-600">First, a disclaimer – the entire process of
-                                    writing a blog post often takes more than a couple of hours, even if you can type eighty
-                                    words as per minute and your writing skills are sharp.</p>
-                                <!--end::Text-->
-                            </div>
-                            <!--end::Top-->
-                            <!--begin::Item-->
-                            <div class="mb-8">
-                                <!--begin::Title-->
-                                <h4 class="text-gray-700 w-bolder mb-0">Requirements</h4>
-                                <!--end::Title-->
-                                <!--begin::Section-->
-                                <div class="my-2">
-                                    <!--begin::Row-->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <!--begin::Bullet-->
-                                        <span class="bullet me-3"></span>
-                                        <!--end::Bullet-->
-                                        <!--begin::Label-->
-                                        <div class="text-gray-600 fw-semibold fs-6">Experience with JavaScript</div>
-                                        <!--end::Label-->
-                                    </div>
-                                    <!--end::Row-->
-                                    <!--begin::Row-->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <!--begin::Bullet-->
-                                        <span class="bullet me-3"></span>
-                                        <!--end::Bullet-->
-                                        <!--begin::Label-->
-                                        <div class="text-gray-600 fw-semibold fs-6">Good time-management skills</div>
-                                        <!--end::Label-->
-                                    </div>
-                                    <!--end::Row-->
-                                    <!--begin::Row-->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <!--begin::Bullet-->
-                                        <span class="bullet me-3"></span>
-                                        <!--end::Bullet-->
-                                        <!--begin::Label-->
-                                        <div class="text-gray-600 fw-semibold fs-6">Experience with React</div>
-                                        <!--end::Label-->
-                                    </div>
-                                    <!--end::Row-->
-                                    <!--begin::Row-->
-                                    <div class="d-flex align-items-center">
-                                        <!--begin::Bullet-->
-                                        <span class="bullet me-3"></span>
-                                        <!--end::Bullet-->
-                                        <!--begin::Label-->
-                                        <div class="text-gray-600 fw-semibold fs-6">Experience with HTML / CSS</div>
-                                        <!--end::Label-->
-                                    </div>
-                                    <!--end::Row-->
-                                </div>
-                                <!--end::Section-->
-                            </div>
-                            <!--end::Item-->
-                            <!--begin::Item-->
-                            <div class="mb-8">
-                                <!--begin::Title-->
-                                <h4 class="text-gray-700 w-bolder mb-0">Our Achievements</h4>
-                                <!--end::Title-->
-                                <!--begin::Section-->
-                                <div class="my-2">
-                                    <!--begin::Row-->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <!--begin::Bullet-->
-                                        <span class="bullet me-3"></span>
-                                        <!--end::Bullet-->
-                                        <!--begin::Label-->
-                                        <div class="text-gray-600 fw-semibold fs-6">Experience with JavaScript</div>
-                                        <!--end::Label-->
-                                    </div>
-                                    <!--end::Row-->
-                                    <!--begin::Row-->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <!--begin::Bullet-->
-                                        <span class="bullet me-3"></span>
-                                        <!--end::Bullet-->
-                                        <!--begin::Label-->
-                                        <div class="text-gray-600 fw-semibold fs-6">Good time-management skills</div>
-                                        <!--end::Label-->
-                                    </div>
-                                    <!--end::Row-->
-                                    <!--begin::Row-->
-                                    <div class="d-flex align-items-center mb-3">
-                                        <!--begin::Bullet-->
-                                        <span class="bullet me-3"></span>
-                                        <!--end::Bullet-->
-                                        <!--begin::Label-->
-                                        <div class="text-gray-600 fw-semibold fs-6">Experience with React</div>
-                                        <!--end::Label-->
-                                    </div>
-                                    <!--end::Row-->
-                                    <!--begin::Row-->
-                                    <div class="d-flex align-items-center">
-                                        <!--begin::Bullet-->
-                                        <span class="bullet me-3"></span>
-                                        <!--end::Bullet-->
-                                        <!--begin::Label-->
-                                        <div class="text-gray-600 fw-semibold fs-6">Experience with HTML / CSS</div>
-                                        <!--end::Label-->
-                                    </div>
-                                    <!--end::Row-->
-                                </div>
-                                <!--end::Section-->
-                            </div>
-                            <!--end::Item-->
-                            <!--begin::Link-->
-                            <a href="../../demo1/dist/pages/blog/post.html" class="link-primary fs-6 fw-semibold">Explore
-                                More</a>
-                            <!--end::Link-->
-                        </div>
-                        <!--end::Body-->
-                    </div>
-                    <!--end::Careers about-->
-                </div> --}}
-                <!--end::Sidebar-->
 
             </div>
             <!--end::Layout-->

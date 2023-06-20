@@ -20,6 +20,9 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
+            'age' => mt_rand(14, 20),
+            'telepon' => mt_rand(100000000000, 900000000000),
+            'school_level' => fake()->randomElement(['SMA', 'SMK']),
             'email_verified_at' => now(),
             'password' => bcrypt('123123'), // password
             'image' => 'me.png',

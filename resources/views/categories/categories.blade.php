@@ -69,7 +69,7 @@
                 <table class="table align-middle gs-0 gy-4">
                     <!--begin::Table head-->
                     <thead>
-                        <tr class="fw-bold text-muted bg-light">
+                        <tr class="fw-bold text-muted bg-dark">
                             <th class="ps-4 min-w-325px rounded-start">Name</th>
                             <th class="min-w-200px text-end rounded-end"></th>
                         </tr>
@@ -137,6 +137,9 @@
                         <tr>
                             <td colspan="2">{{ $categories->links() }}</td>
                         </tr>
+                        @if (!$categories->count())
+                            Tidak ada kategori
+                        @endif
                     </tbody>
                     <!--end::Table body-->
                 </table>

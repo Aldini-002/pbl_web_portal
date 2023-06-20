@@ -46,9 +46,8 @@
                             <!--begin::Title-->
                             <h4 class="fs-1 text-gray-800 w-bolder mb-6">{{ $course->title }}</h4>
                             <!--end::Title-->
-                            <p class="fw-bold">Kategori : <a
-                                    href="{{ route('courses.index', 'id_category=' . $course->category->id) }}"
-                                    class="badge bg-primary">{{ $course->category->name }}</a></p>
+                            <p class="fw-bold">Kategori : <span
+                                    class="badge bg-primary">{{ $course->category->name }}</span></p>
                             <!--begin::Text-->
                             <p class="fw-semibold fs-4 text-gray-600 mb-2">{!! $course->description !!}</p>
                             <!--end::Text-->
@@ -62,6 +61,9 @@
                         <p class="fw-semibold fs-4 text-gray-600 mb-2">MATERI</p>
 
                         <!--begin::Section-->
+                        @if (!$materis->count())
+                            Tidak ada materi
+                        @endif
                         @foreach ($materis as $materi)
                             <div class="m-0">
                                 <!--begin::Heading-->
@@ -112,8 +114,15 @@
                                             <span class="bullet me-3"></span>
                                             <!--end::Bullet-->
                                             <!--begin::Label-->
-                                            <a href="/doc/materi/{{ $materi->materi }}" class="fw-semibold fs-6"
-                                                target="blank">{{ $materi->title }}</a>
+                                            @if ($materi->type == 'pdf')
+                                                <a href="/doc/materi/{{ $materi->materi }}" class="fw-semibold fs-6"
+                                                    target="blank">{{ $materi->title }} <small
+                                                        class="text-muted">(materi)</small></a>
+                                            @else
+                                                <a href="{{ $materi->materi }}" class="fw-semibold fs-6"
+                                                    target="blank">{{ $materi->title }} <small
+                                                        class="text-muted">(tugas)</small></a>
+                                            @endif
                                             <!--end::Label-->
 
                                         </div>
@@ -131,7 +140,8 @@
                                             @if ($materi->task->count())
                                                 @foreach ($tasks->where('id_materi', $materi->id) as $task)
                                                     <a href="{{ route('tasks.show', $task->id) }}"
-                                                        class="fw-semibold fs-6">{{ $task->title }}</a>
+                                                        class="fw-semibold fs-6">{{ $task->title }} <small
+                                                            class="text-muted">(tugas)</small></a>
                                                 @endforeach
                                             @else
                                                 <a href="{{ route('tasks.create') . '?id_batch=' . $batch->id . '&id_course=' . $course->id . '&id_materi=' . $materi->id }}"

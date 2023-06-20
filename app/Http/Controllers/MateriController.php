@@ -33,8 +33,14 @@ class MateriController extends Controller
         $rules = [
             'title' => 'required|min:3',
             'id_course' => 'required',
-            'materi' => 'required|file|max:2024'
+            'type' => 'required',
         ];
+
+        if ($request->type == 'pdf') {
+            $rules = array_merge($rules, ['materi' => 'required|file|max:2024',]);
+        } else {
+            $rules = array_merge($rules, ['materi' => 'required']);
+        }
 
         $message = [
             'required' => 'Tidak boleh kosong!',

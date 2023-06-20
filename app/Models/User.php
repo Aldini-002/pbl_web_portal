@@ -25,6 +25,8 @@ class User extends Authenticatable
         'role',
         'nik',
         'telepon',
+        'age',
+        'school_level'
     ];
 
     /**
@@ -56,10 +58,28 @@ class User extends Authenticatable
         $query->when($filters['role'] ?? false, function ($query, $role) {
             return $query->where('role', $role);
         });
+
+        $query->when($filters['age'] ?? false, function ($query, $age) {
+            return $query->where('age', $age);
+        });
+
+        $query->when($filters['school_level'] ?? false, function ($query, $school_level) {
+            return $query->where('school_level', $school_level);
+        });
     }
 
     public function batch_user()
     {
         return $this->hasMany(Batch_users::class, 'id_user');
+    }
+
+    public function batch_user_history()
+    {
+        return $this->hasMany(Batch_user_history::class, 'id_user');
+    }
+
+    public function ikuti_angkatan()
+    {
+        return $this->hasMany(Ikuti_angkatan::class, 'id_user');
     }
 }

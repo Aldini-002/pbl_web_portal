@@ -77,6 +77,9 @@
                 <div class="mb-5">
                     {{ $courses->links() }}
                 </div>
+                @if (!$courses->count())
+                    Tidak ada pelatihan
+                @endif
                 <!--end::Col-->
             </div>
 

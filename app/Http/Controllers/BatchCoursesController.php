@@ -27,11 +27,13 @@ class BatchCoursesController extends Controller
         $batch = Batch::findOrFail($id);
         $courses = Course::filter(request(['title', 'id_category']))->latest()->paginate(8)->withQueryString();
         $categories = Category::latest()->get();
+        $batch_courses = Batch_courses::where('id_batch', '!=', $id)->get();
 
         return view('batches.batches_courses_add', [
             'courses' => $courses,
             'categories' => $categories,
             'batch' => $batch,
+            'batch_courses' => $batch_courses,
         ]);
     }
 

@@ -94,7 +94,7 @@
                 <!--begin:Menu item-->
                 <div class="menu-item">
                     <!--begin:Menu link-->
-                    <a class="menu-link {{ request()->is('batches*') ? 'active' : '' }}"
+                    <a class="menu-link {{ request()->is('batches*') || request()->is('tasks*') ? 'active' : '' }}"
                         href="{{ route('batches.index') }}">
                         <span class="menu-title">Angkatan</span>
                     </a>
@@ -102,6 +102,20 @@
                 </div>
                 <!--end:Menu item-->
 
+                @auth
+                    @if (Auth::user()->role != 'instruktur')
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{ request()->is('ikuti*') ? 'active' : '' }}"
+                                href="{{ route('ikuti.index') }}">
+                                <span class="menu-title">Permintaan angkatan</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    @endif
+                @endauth
                 @can('admin')
                     <!--begin:Menu item-->
                     <div class="menu-item">

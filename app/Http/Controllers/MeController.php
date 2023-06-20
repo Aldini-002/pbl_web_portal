@@ -56,12 +56,20 @@ class MeController extends Controller
             ]);
         }
 
-        if ($request->telepon) {
+        if ($request->telepon && $request->telepon != $user->telepon) {
             $rules = array_merge($rules, ['telepon' => 'required|numeric|min_digits:10|max_digits:20',]);
         }
 
         if ($request->nik && $request->nik != $user->nik) {
             $rules = array_merge($rules, ['nik' => 'required|unique:users|min_digits:10|max_digits:30',]);
+        }
+
+        if ($request->age) {
+            $rules = array_merge($rules, ['age' => 'required|max_digits:2',]);
+        }
+
+        if ($request->school_level) {
+            $rules = array_merge($rules, ['school_level' => 'required',]);
         }
 
         $message = [

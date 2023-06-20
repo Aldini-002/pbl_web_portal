@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Batch;
 use App\Models\Batch_courses;
+use App\Models\Batch_user_history;
 use App\Models\Batch_users;
 use App\Models\Course;
+use App\Models\Ikuti_angkatan;
 use App\Models\Materi;
 use App\Models\Task;
 use App\Models\User;
@@ -22,22 +24,40 @@ class BatchController extends Controller
     {
         $update_batches = Batch::all();
         foreach ($update_batches as $batch) {
-            if ($batch->start < date(now())) {
+            if ($batch->start > date(now()) && $batch->end > date(now())) {
                 $batch->status = 'akan datang';
                 $batch->save();
-            } elseif ($batch->start >= date(now()) && date(now()) <= $batch->end) {
+            } elseif ($batch->start < date(now()) && $batch->end > date(now())) {
                 $batch->status = 'berlangsung';
                 $batch->save();
-            } else {
+            } elseif ($batch->start < date(now()) && $batch->end < date(now())) {
                 $batch->status = 'selesai';
                 $batch->save();
+
+                $ikutis = Ikuti_angkatan::where('id_batch', $batch->id)->get();
+                foreach ($ikutis as $ikuti) {
+                    Ikuti_angkatan::destroy($ikuti->id);
+                }
+
+                $batch_users = Batch_users::where('id_batch', $batch->id)->get();
+                foreach ($batch_users as $batch_user) {
+                    Batch_user_history::create([
+                        'id_batch' => $batch_user->id_batch,
+                        'id_user' => $batch_user->id_user,
+                    ]);
+                    Batch_users::destroy($batch_user->id);
+                }
             }
         }
 
         $batches = Batch::filter(request(['title', 'status']))->latest()->paginate(8)->withQueryString();
+        $batches_diikutis = Batch_users::where('id_user', Auth::user()->id)->latest()->paginate(8)->withQueryString();
+        $riwayat_batches_diikutis = Batch_user_history::where('id_user', Auth::user()->id)->latest()->paginate(8)->withQueryString();
 
         return view('batches.batches', [
             'batches' => $batches,
+            'batches_diikutis' => $batches_diikutis,
+            'riwayat_batches_diikutis' => $riwayat_batches_diikutis,
         ]);
     }
 
@@ -92,19 +112,34 @@ class BatchController extends Controller
     {
         $update_batches = Batch::all();
         foreach ($update_batches as $batch) {
-            if ($batch->start < date(now())) {
+            if ($batch->start > date(now()) && $batch->end > date(now())) {
                 $batch->status = 'akan datang';
                 $batch->save();
-            } elseif ($batch->start >= date(now()) && date(now()) <= $batch->end) {
+            } elseif ($batch->start < date(now()) && $batch->end > date(now())) {
                 $batch->status = 'berlangsung';
                 $batch->save();
-            } else {
+            } elseif ($batch->start < date(now()) && $batch->end < date(now())) {
                 $batch->status = 'selesai';
                 $batch->save();
+
+                $ikutis = Ikuti_angkatan::where('id_batch', $batch->id)->get();
+                foreach ($ikutis as $ikuti) {
+                    Ikuti_angkatan::destroy($ikuti->id);
+                }
+
+                $batch_users = Batch_users::where('id_batch', $batch->id)->get();
+                foreach ($batch_users as $batch_user) {
+                    Batch_user_history::create([
+                        'id_batch' => $batch_user->id_batch,
+                        'id_user' => $batch_user->id_user,
+                    ]);
+                    Batch_users::destroy($batch_user->id);
+                }
             }
         }
 
         $batch = Batch::findOrFail($id);
+
         $courses = Course::all();
 
         return view('batches.batches_detail', [

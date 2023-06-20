@@ -36,4 +36,14 @@ class Batch extends Model
     {
         return $this->hasMany(Task::class, 'id_batch');
     }
+
+    public function batch_user_history()
+    {
+        return $this->hasMany(Batch_user_history::class, 'id_batch');
+    }
+
+    public function ikuti_angkatan()
+    {
+        return $this->hasMany(Ikuti_angkatan::class, 'id_batch');
+    }
 }

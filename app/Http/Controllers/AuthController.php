@@ -31,7 +31,10 @@ class AuthController extends Controller
     {
         // validation
         $rules = [
+            'telepon' => 'required|numeric|min_digits:10|max_digits:20',
             'name' => 'required|min:3|unique:users',
+            'age' => 'required|max_digits:3',
+            'school_level' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
             'confPassword' => 'required|same:password',
@@ -44,6 +47,7 @@ class AuthController extends Controller
             'min' => 'Minimal :min karakter atau lebih!',
             'same' => 'Konfirmasi password tidak sama!',
             'unique' => ':attribute sudah terdaftar',
+            'max_digits' => 'Maksimal :max karakter!',
             'image' => 'File hanya boleh gambar!',
             'max' => 'Maksimal :max kb'
         ];

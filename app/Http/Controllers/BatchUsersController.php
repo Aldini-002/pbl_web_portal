@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Batch;
+use App\Models\Batch_user_history;
 use App\Models\Batch_users;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,8 +23,23 @@ class BatchUsersController extends Controller
      */
     public function create($id)
     {
-        $users = User::filter(request(['name', 'role']))->where('role', '!=', 'admin')->paginate(9)->withQueryString();
+        $update_batches = Batch::all();
+        foreach ($update_batches as $batch) {
+            if ($batch->status == 'selesai') {
+                $batch_users_update = Batch_users::where('id_batch', $batch->id)->get();
+                foreach ($batch_users_update as $update) {
+                    Batch_user_history::create([
+                        'id_user' => $update->id_user,
+                        'id_batch' => $update->id_batch,
+                    ]);
+
+                    $update->delete();
+                }
+            }
+        }
+
         $batch = Batch::findOrFail($id);
+        $users = User::filter(request(['name', 'role', 'age', 'school_level']))->where('role', '!=', 'admin')->paginate(9)->withQueryString();
 
         return view('batches.batches_users_add', [
             'users' => $users,

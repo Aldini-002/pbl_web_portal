@@ -15,12 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('email')->unique();
-            $table->string('telepon')->unique()->nullable();
+            $table->string('telepon')->unique();
             $table->string('nik')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('image');
             $table->enum('role', ['admin', 'siswa', 'instruktur'])->default('siswa');
+            $table->bigInteger('age');
+            $table->enum('school_level', ['SD', 'SMP', 'SMA', 'SMK', 'Diploma', 'Sarjana', 'Magister', 'Doktor'])->default('SD');
             $table->rememberToken();
             $table->timestamps();
         });

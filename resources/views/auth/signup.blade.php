@@ -74,6 +74,58 @@
                     </div>
                     <!--end::Email-->
                 </div>
+                <!--begin::Input group=-->
+                <div class="fv-row mb-8">
+                    <!--begin::age-->
+                    <input type="number" placeholder="Umur..." name="age" autocomplete="off"
+                        class="form-control bg-transparent @error('age') is-invalid @enderror" required
+                        value="{{ old('age') }}" />
+                    <div class="invalid-feedback">
+                        @error('age')
+                            {{ $message }}
+                        @enderror
+                    </div>
+                    <!--end::age-->
+                </div>
+                <!--begin::Input group=-->
+                <div class="fv-row mb-8">
+                    <!--begin::age-->
+                    <input type="tel" placeholder="Nomor telepon..." name="telepon" autocomplete="off"
+                        class="form-control bg-transparent @error('telepon') is-invalid @enderror" required
+                        value="{{ old('telepon') }}" />
+                    <div class="invalid-feedback">
+                        @error('telepon')
+                            {{ $message }}
+                        @enderror
+                    </div>
+                    <!--end::age-->
+                </div>
+                <!--begin::Input group=-->
+                <div class="fv-row mb-8">
+                    <!--begin::school-->
+                    <select name="school_level" class="form-select bg-transparent" data-control="select2"
+                        data-hide-search="true" required>
+                        <option selected disabled>Pendidikan
+                            terakhir/saat ini...</option>
+                        <option value="SD">SD</option>
+                        <option value="SMP">SMP</option>
+                        <option value="SMA">SMA</option>
+                        <option value="SMK">SMK</option>
+                        <option value="Diploma">Diploma</option>
+                        <option value="Sarjana">Sarjana</option>
+                        <option value="Magister">Magister
+                        </option>
+                        <option value="Doktor">Doktor</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        @error('school_level')
+                            {{ $message }}
+                        @enderror
+                    </div>
+                    <!--end::school-->
+                </div>
+
+
                 <!--begin::Input group-->
                 <div class="fv-row mb-8" data-kt-password-meter="true">
                     <!--begin::Wrapper-->

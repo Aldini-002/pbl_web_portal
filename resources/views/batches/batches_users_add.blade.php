@@ -24,13 +24,45 @@
 
             <form action="{{ route('batches-users.create', $batch->id) }}" class="d-inline mb-3">
                 <div class="row mb-6">
-                    <div class="col-lg-5 mb-4 mb-lg-0">
+                    <div class="col-lg mb-4 mb-lg-0">
                         <div class="fv-row mb-0">
                             <input type="text" name="name" value="{{ request('name') }}"
                                 class="form-control bg-transparent" placeholder="nama...">
                         </div>
                     </div>
-                    <div class="col-lg-5 mb-4 mb-lg-0">
+                    <div class="col-lg-1 mb-4 mb-lg-0">
+                        <div class="fv-row mb-0">
+                            <input type="number" name="age" value="{{ request('age') }}"
+                                class="form-control bg-transparent" placeholder="umur...">
+                        </div>
+                    </div>
+                    <div class="col-lg mb-4 mb-lg-0">
+                        <div class="fv-row mb-0">
+                            <select name="school_level" class="form-select" data-control="select2" data-hide-search="true">
+                                <option {{ !request('schoool_level') ? 'selected' : '' }} value="">
+                                    {{ request('school_level') ? 'Kosongkan' : 'pendidikan...' }}</option>
+                                <option value="SD" {{ request('school_level') == 'SD' ? 'selected' : '' }}>SD</option>
+                                <option value="SMP" {{ request('school_level') == 'SMP' ? 'selected' : '' }}>SMP
+                                </option>
+                                <option value="SMA" {{ request('school_level') == 'SMA' ? 'selected' : '' }}>SMA
+                                </option>
+                                <option value="SMK" {{ request('school_level') == 'SMK' ? 'selected' : '' }}>SMK
+                                </option>
+                                <option value="Diploma" {{ request('school_level') == 'Diploma' ? 'selected' : '' }}>
+                                    Diploma
+                                </option>
+                                <option value="Sarjana" {{ request('school_level') == 'Sarjana' ? 'selected' : '' }}>
+                                    Sarjana
+                                </option>
+                                <option value="Magister" {{ request('school_level') == 'Magister' ? 'selected' : '' }}>
+                                    Magister
+                                </option>
+                                <option value="Doktor" {{ request('school_level') == 'Doktor' ? 'selected' : '' }}>Doktor
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg mb-4 mb-lg-0">
                         <div class="fv-row mb-0">
                             <select name="role" class="form-select" data-control="select2" data-hide-search="true">
                                 <option {{ !request('role') ? 'selected disabled' : '' }} value="">
@@ -42,7 +74,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg mb-4 mb-lg-0">
+                    <div class="col-lg-2 mb-4 mb-lg-0">
                         <div class="fv-row mb-0">
                             <button type="submit" class="btn btn-primary" style="width: 100%">Filter</button>
                         </div>
@@ -57,8 +89,11 @@
                     <thead>
                         <tr class="fw-bold text-muted text-light bg-dark">
                             <th class="ps-4 min-w-325px rounded-start">Profile</th>
-                            <th class="ps-4 min-w-325px ">Role</th>
-                            <th class="min-w-200px text-end rounded-end"></th>
+                            <th class="ps-4 min-w-100px ">Umur</th>
+                            <th class="ps-4 min-w-200px ">Kontak</th>
+                            <th class="ps-4 min-w-100px ">Pendidikan</th>
+                            <th class="ps-4 min-w-100px ">Role</th>
+                            <th class="min-w-100px text-end rounded-end"></th>
                         </tr>
                     </thead>
                     <!--end::Table head-->
@@ -79,6 +114,15 @@
                                                 class="text-muted fw-semibold text-muted d-block fs-7">{{ $user->email }}</span>
                                         </div>
                                     </div>
+                                </td>
+                                <td>
+                                    <span>{{ $user->age }}</span>
+                                </td>
+                                <td>
+                                    <span>{{ $user->telepon }}</span>
+                                </td>
+                                <td>
+                                    <span>{{ $user->school_level }}</span>
                                 </td>
                                 <td>
                                     <span

@@ -15,7 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::filter(request(['name', 'role']))->paginate(9)->withQueryString();
+        $users = User::filter(request(['name', 'role', 'school_level', 'age']))->paginate(9)->withQueryString();
 
         return view('user.users', [
             'users' => $users,

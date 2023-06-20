@@ -18,6 +18,9 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory()->create([
             'name' => 'Admin Utama',
             'email' => 'a@gmail.com',
+            'age' => 30,
+            'telepon' => mt_rand(100000000000, 900000000000),
+            'school_level' => 'SMK',
             'password' => bcrypt('123123'),
             'image' => 'me.png',
             'role' => 'admin',
@@ -26,9 +29,23 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory()->create([
             'name' => 'Instrkutur',
             'email' => 'b@gmail.com',
+            'age' => 30,
+            'telepon' => mt_rand(100000000000, 900000000000),
+            'school_level' => 'SMK',
             'password' => bcrypt('123123'),
             'image' => 'me.png',
             'role' => 'instruktur',
+        ]);
+
+        \App\Models\User::factory()->create([
+            'name' => 'Aldini',
+            'email' => 'c@gmail.com',
+            'age' => 30,
+            'telepon' => mt_rand(100000000000, 900000000000),
+            'school_level' => 'SMK',
+            'password' => bcrypt('123123'),
+            'image' => 'me.png',
+            'role' => 'siswa',
         ]);
 
         \App\Models\User::factory(100)->create();
