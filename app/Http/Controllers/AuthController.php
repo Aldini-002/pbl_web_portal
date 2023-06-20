@@ -66,7 +66,7 @@ class AuthController extends Controller
         if ($user) {
             Auth::attempt(['email' => $request->email, 'password' => $request->password]);
             $request->session()->regenerate();
-            return redirect()->intended('/');
+            return redirect()->intended('/dashboard');
         }
 
         return back()->with('error', 'Register gagal!');

@@ -26,11 +26,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('index');
-})->name('home');
+})->name('home')->middleware('guest');
 
 Route::get('/sambutan', function () {
     return view('sambutan');
-})->name('sambutan');
+})->name('sambutan')->middleware('guest');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
