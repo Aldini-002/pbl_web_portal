@@ -34,7 +34,8 @@
                 <!--begin:Menu item-->
                 <div class="menu-item">
                     <!--begin:Menu link-->
-                    <a class="menu-link {{ request()->is('/') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+                    <a class="menu-link {{ request()->is('/dashboard') ? 'active' : '' }}"
+                        href="{{ route('dashboard') }}">
                         <span class="menu-title">Dashboard</span>
                     </a>
                     <!--end:Menu link-->

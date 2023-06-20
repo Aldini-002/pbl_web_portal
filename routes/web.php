@@ -25,8 +25,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    return view('index');
+})->name('home');
+
+Route::get('/sambutan', function () {
+    return view('sambutan');
+})->name('sambutan');
+
+Route::get('/dashboard', function () {
     return view('dashboard');
-})->name('dashboard');
+})->name('dashboard')->middleware('auth');
 
 Route::get('/comingsoon', function () {
     return view('comingsoon');
