@@ -12,6 +12,7 @@ use App\Http\Controllers\MeController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Batch_users;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +26,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('index');
+    $response = Http::get('https://karirhub-api.kemnaker.go.id/v1/available-industrial-vacancies?page=1&limit=8')['data'];
+
+    $batches_diikutis = Batch_users::all();
+    if (Auth::check()) {
+        $batches_diikutis = Batch_users::where('id_user', Auth::user()->id)->latest()->get();
+    }
+    return view('index', [
+        'no' => 1,
+        'siapkerjas' => $response,
+        'batches_diikutis' => $batches_diikutis
+    ]);
 })->name('home')->middleware('guest');
 
 Route::get('/sambutan', function () {
@@ -34,7 +45,7 @@ Route::get('/sambutan', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->name('dashboard')->middleware('auth');
+})->name('dashboard');
 
 Route::get('/comingsoon', function () {
     return view('comingsoon');
